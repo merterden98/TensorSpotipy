@@ -15,8 +15,8 @@ import numpy as np
 
 class ANN(object):
     def __init__(self):
-        self.w1 = np.random.randn(7,4)
-        self.w2 = np.random.randn(4,1)
+        self.w1 = np.random.randn(7,7)
+        self.w2 = np.random.randn(7,1)
         self.Etotal = 0
 
     
@@ -66,9 +66,9 @@ class ANN(object):
         self.error(expected, epoch)
         self.deltaF(expected)
         self.deltaHi()
-        self.z1 = self.z1.reshape(1,4)
+        self.z1 = self.z1.reshape(1,7)
         
-        learningR = 1
+        learningR = 0.1
         
         if self.Etotal / (epoch + 1) < 0.25:
             learningR = 0.1
@@ -79,9 +79,6 @@ class ANN(object):
         weightUp = (learningR * np.dot(self.deltaH, self.inputs)).transpose()
         self.w1 = self.w1 - weightUp
     
-
-
-
 
 
 def activation(val):
@@ -100,7 +97,7 @@ def unison_shuffled_copies(a, b):
 def test_net(net, token):
 
     sp = spotipy.Spotify(auth=token)
-    playlistsongs = sp.user_playlist_tracks('spotifycharts', '37i9dQZEVXbMDoHDwVN2tF')
+    playlistsongs = sp.user_playlist_tracks('1295709267', '4LDdC290dFSdZNP6fe3Klb')
     print("Starting to test Net")
 
     songs = []
@@ -123,6 +120,7 @@ def test_net(net, token):
         playlist1Features.append(feature['instrumentalness'])
         playlist1Features.append(feature['liveness'])
         playlist1Features.append(feature['speechiness'])
+#        playlist1Features.append(feature['tempo'])
         playlist1Features.append(feature['valence'])
         playlist.append(playlist1Features)
         playlist1Features = []
@@ -203,13 +201,14 @@ def main():
         playlistid.append(things['id'])
         playlistname.append(things['name'])
 
-    playlist_name = input("Enter Playlist Name\n")
+    #playlist_name = input("Enter Playlist Name\n")
 
-    index = playlistname.index(playlist_name)
+    #index = playlistname.index(playlist_name)
 
 
-    playlistsongs = sp.user_playlist_tracks(username, playlistid[index])
+   # playlistsongs = sp.user_playlist_tracks(username, playlistid[index])
 
+    playlistsongs = sp.user_playlist_tracks('spotify', '37i9dQZF1E9PGVY1JLV69D')
 
     songs = []
     names = []
@@ -232,13 +231,14 @@ def main():
         playlist1Features.append(feature['instrumentalness'])
         playlist1Features.append(feature['liveness'])
         playlist1Features.append(feature['speechiness'])
+     #   playlist1Features.append(feature['tempo'])
         playlist1Features.append(feature['valence'])
         playlist1.append(playlist1Features)
         playlist1Features = []
 
     #print("My Playlist Features", playlist1)
 
-    playlistsongs = sp.user_playlist_tracks('22vm5ow6xk7mhwlami4urvmiq', '5y5oebtuSnNvIKLDFwQ7GF')
+    playlistsongs = sp.user_playlist_tracks('spotify', '37i9dQZF1E9TkstF00WIRe')
 
 
     songs = []
@@ -263,6 +263,7 @@ def main():
         playlist2Features.append(feature['instrumentalness'])
         playlist2Features.append(feature['liveness'])
         playlist2Features.append(feature['speechiness'])
+   #     playlist2Features.append(feature['tempo'])
         playlist2Features.append(feature['valence'])
         playlist2.append(playlist2Features)
         playlist2Features = []
